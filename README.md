@@ -13,7 +13,7 @@ Automated VM creation on VergeOS using HashiCorp Packer and Debian 13 cloud imag
 
 1. **Clone this repository**
 ```bash
-git clone <your-repo>
+git clone https://github.com/dvvincent/vergeos-packer.git
 cd vergeos-packer-public
 ```
 
