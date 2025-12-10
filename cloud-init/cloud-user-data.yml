@@ -1,0 +1,49 @@
+#cloud-config
+# Cloud-init for Debian cloud image
+
+# Set hostname
+hostname: debian13-packer
+
+# Enable password authentication for SSH
+ssh_pwauth: true
+chpasswd:
+  expire: false
+
+# Set password for default debian user
+users:
+  - name: debian
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: false
+    # Password: packer123
+    passwd: $6$rounds=4096$saltsaltsal$L9uK0O7V5Dqzv3kuO9Ih9PCP.nFYlWXK8YqvkQ8kXF6q5H9J0pZ8Z3qN5Y5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5.
+
+# Also create packer user
+  - name: packer
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: false
+    passwd: $6$rounds=4096$saltsaltsal$L9uK0O7V5Dqzv3kuO9Ih9PCP.nFYlWXK8YqvkQ8kXF6q5H9J0pZ8Z3qN5Y5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5.
+
+# Update and upgrade
+package_update: true
+package_upgrade: true
+
+# Install packages
+packages:
+  - qemu-guest-agent
+  - sudo
+
+# Enable services
+runcmd:
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  - systemctl enable ssh
+  - echo "debian:packer123" | chpasswd
+  - echo "Cloud-init completed"
+
+# Timezone
+timezone: UTC
+
+# Final message
+final_message: "Debian 13 cloud image ready! Login with debian/packer123 or packer/packer123"

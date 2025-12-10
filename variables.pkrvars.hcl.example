@@ -1,0 +1,22 @@
+# VergeOS Connection Settings
+vergeio_endpoint = "your-vergeio-server.example.com"  # or IP address like "192.168.1.111"
+vergeio_username = "admin"
+vergeio_password = "your-password-here"
+vergeio_insecure = true  # Set to false if using valid TLS certificates
+
+# Network Configuration
+network_id = 17  # ID of the VergeIO network to attach VMs to
+
+# Debian 13 Cloud Image
+# Find this with: curl -k -u "user:pass" "https://vergeio/api/v4/files" -s | jq '.[] | select(.name | contains("debian"))'
+debian_cloud_image_id = 72  # File ID of debian-13-generic-amd64-*.qcow2
+
+# VM Configuration (optional - has defaults)
+# vm_name = "packer-debian13-cloud"
+# cpu_cores = 2
+# ram_mb = 2048
+# disk_size_gb = 20
+
+# SSH Credentials (optional - has defaults)
+# ssh_username = "debian"
+# ssh_password = "packer123"

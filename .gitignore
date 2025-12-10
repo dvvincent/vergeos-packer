@@ -1,0 +1,9 @@
+# Ignore secrets and local configuration
+*.pkrvars.hcl
+!*.pkrvars.hcl.example
+.terraform/
+.packer.d/
+packer_cache/
+
+# Ignore the blog post as requested
+blog-post.md

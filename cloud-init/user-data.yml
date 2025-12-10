@@ -1,0 +1,77 @@
+#cloud-config
+# Cloud-init user-data configuration for Debian 13 (Trixie)
+
+# Set hostname
+hostname: debian13-packer
+
+# Create users
+users:
+  - name: packer
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: false
+    # Password: packer123 (hashed with mkpasswd --method=SHA-512 --rounds=4096)
+    # Generate your own hash with: mkpasswd --method=SHA-512 --rounds=4096
+    passwd: $6$rounds=4096$saltsaltsal$L9uK0O7V5Dqzv3kuO9Ih9PCP.nFYlWXK8YqvkQ8kXF6q5H9J0pZ8Z3qN5Y5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5Z5.
+    ssh_authorized_keys: []
+
+# Update packages on first boot
+package_update: true
+package_upgrade: true
+
+# Install essential packages for Debian 13
+packages:
+  - curl
+  - wget
+  - vim
+  - htop
+  - net-tools
+  - git
+  - qemu-guest-agent
+  - cloud-init
+  - sudo
+  - openssh-server
+  - ca-certificates
+  - gnupg
+  - lsb-release
+
+# Enable services
+runcmd:
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  - systemctl enable ssh
+  - systemctl start ssh
+  - echo "Debian 13 (Trixie) cloud-init setup complete"
+
+# Configure SSH
+ssh_pwauth: true
+disable_root: false
+
+# Timezone
+timezone: UTC
+
+# Locale
+locale: en_US.UTF-8
+
+# Grow root partition to fill disk
+growpart:
+  mode: auto
+  devices: ['/']
+  ignore_growroot_disabled: false
+
+# Resize filesystem
+resize_rootfs: true
+
+# Set up APT to use HTTPS
+apt:
+  preserve_sources_list: false
+  sources:
+    debian-main:
+      source: "deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware"
+    debian-updates:
+      source: "deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware"
+    debian-security:
+      source: "deb http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware"
+
+# Final message
+final_message: "Debian 13 (Trixie) cloud-init configuration completed. System is ready!"

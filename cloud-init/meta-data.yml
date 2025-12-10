@@ -1,0 +1,3 @@
+# Cloud-init meta-data configuration
+instance-id: packer-ubuntu-vm
+local-hostname: packer-vm
