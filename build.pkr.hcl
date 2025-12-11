@@ -49,7 +49,8 @@ source "vergeio" "debian13_cloud" {
   vergeio_insecure = true
   vergeio_port     = 443
 
-  name        = "packer-debian13-cloud"
+  # VM configuration with timestamp to avoid naming conflicts
+  name        = "packer-debian13-${formatdate("YYYYMMDD-hhmmss", timestamp())}"
   description = "Debian 13 from cloud image"
   os_family   = "linux"
   cpu_cores   = 2
