@@ -24,9 +24,21 @@ variable "vergeio_password" {
   default   = "Algom@Secure"
 }
 
-variable "network_id" {
-  type    = number
-  default = 17
+variable "network_name" {
+  type        = string
+  default     = "External"
+  description = "Name of the VergeOS network to attach to"
+}
+
+# Network data source - discover network by name instead of hardcoding ID
+data "vergeio-networks" "target_network" {
+  vergeio_endpoint = var.vergeio_endpoint
+  vergeio_username = var.vergeio_username
+  vergeio_password = var.vergeio_password
+  vergeio_insecure = true
+  vergeio_port     = 443
+
+  filter_name = var.network_name
 }
 
 # VergeIO VM source - Import from Debian 13 cloud image
@@ -57,7 +69,7 @@ source "vergeio" "debian13_cloud" {
 
   vm_nics {
     name             = "primary_nic"
-    vnet             = var.network_id
+    vnet             = data.vergeio-networks.target_network.networks[0].id
     interface        = "virtio"
     assign_ipaddress = true
     enabled          = true

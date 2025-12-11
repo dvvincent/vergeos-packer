@@ -5,7 +5,7 @@ vergeio_password = "your-password-here"
 vergeio_insecure = true  # Set to false if using valid TLS certificates
 
 # Network Configuration
-network_id = 17  # ID of the VergeIO network to attach VMs to
+network_name = "External"  # Name of the VergeOS network to attach VMs to
 
 # Debian 13 Cloud Image
 # Find this with: curl -k -u "user:pass" "https://vergeio/api/v4/files" -s | jq '.[] | select(.name | contains("debian"))'
