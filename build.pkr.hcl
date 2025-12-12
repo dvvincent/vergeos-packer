@@ -102,19 +102,24 @@ source "vergeio" "debian13_cloud" {
 build {
   sources = ["source.vergeio.debian13_cloud"]
 
+  # Verify connectivity and system state
   provisioner "shell" {
     inline = [
-      "echo 'System Information:'",
-      "uname -a",
-      "cat /etc/debian_version"
+      "echo 'SSH connection successful!'",
+      "whoami",
+      "hostname",
+      "ip addr show"
     ]
   }
 
+  # Install and configure guest agent
   provisioner "shell" {
     inline = [
+      "echo 'Installing qemu-guest-agent...'",
       "sudo apt-get update",
-      "sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y",
-      "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget vim htop git"
+      "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y qemu-guest-agent",
+      "sudo systemctl enable qemu-guest-agent",
+      "echo 'VM provisioning completed!'"
     ]
   }
 }
